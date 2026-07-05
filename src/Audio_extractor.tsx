@@ -13,8 +13,13 @@ export default function AudioExtractor() {
     setError(null);
 
     try {
-      const backendUrl = process.env.NODE_ENV === 'production'
-        ? 'https://audio-extractor-site-backend.onrender.com' // <-- Put your real Render backend URL here!
+      // 1. ADDED '/extract' AND fallbacks to guarantee Render environment URLs work
+      const isProduction = 
+        process.env.NODE_ENV === 'production' || 
+        window.location.hostname !== 'localhost';
+
+      const backendUrl = isProduction
+        ? 'https://audio-extractor-site-backend.onrender.com/extract' 
         : 'http://localhost:5000/extract';
 
       const response = await fetch(backendUrl, {
