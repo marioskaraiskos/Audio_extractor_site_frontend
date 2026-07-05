@@ -13,7 +13,11 @@ export default function AudioExtractor() {
     setError(null);
 
     try {
-      const response = await fetch('http://localhost:5000/extract', {
+      const backendUrl = process.env.NODE_ENV === 'production'
+        ? 'https://your-backend-service-name.onrender.com/extract' // <-- Put your real Render backend URL here!
+        : 'http://localhost:5000/extract';
+
+      const response = await fetch(backendUrl, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ url }),
